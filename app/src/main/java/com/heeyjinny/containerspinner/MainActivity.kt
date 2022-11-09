@@ -3,6 +3,8 @@ package com.heeyjinny.containerspinner
 import android.icu.number.Notation.simple
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.heeyjinny.containerspinner.databinding.ActivityMainBinding
 
@@ -32,6 +34,23 @@ class MainActivity : AppCompatActivity() {
         binding.spinner.adapter = adapter
 
 
+        //스피너 선택 시 선택한 값을 선택 결과 뷰에 보여주기
+        //스피너 선택동작 인식 리스너 : onItemSelectedListener 사용하여 메소드 목록 불러오기
+        //리스너 사용 시 = object: OnIt 까지만 입력해도 자동완성으로 AdapterView가 적어지도록 되어있음...
+        binding.spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                //파라미터의 대부분 세 번째 파라미터만 사용
+                //세 번째 파라미터는 원래 p2로 자동 생성 됐으나 position으로 바꿔서 사용함
+                //position : 스피너 목록 선택 시 몇 번째 아이템 인지 알려주는 파라미터
+
+                //리스너에서 넘겨주는 position값으로 data의 해당 위치에 있는 문자 값을 선택결과 뷰에 입력
+                binding.result.text = data.get(position)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        }
 
     }//onCreate
 }//MainActivity
